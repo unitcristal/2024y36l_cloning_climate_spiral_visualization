@@ -1,9 +1,14 @@
 let data;
 let months;
 
-let minusOneRadius = 100; // -1도 반경 추가
-let zeroRadius = minusOneRadius * 2;
-let oneRadius = minusOneRadius * 3;
+let minusOneRadius = 100; // -1도 반경
+// let minusOneRadius = 100; // -1도 반경 추가
+// let zeroRadius = minusOneRadius * 2;
+// let oneRadius = minusOneRadius * 3;
+let zeroRadius = minusOneRadius * 2; // 0도 반경
+let oneRadius = minusOneRadius * 3; // 1도 반경
+let onePointFiveRadius = oneRadius + minusOneRadius * 0.5; // 1.5도 반경
+
 let testRadius = minusOneRadius * 4;
 let testRadius2 = minusOneRadius * 8 - minusOneRadius;
 
@@ -13,7 +18,9 @@ let currentMonth = 0; // Month도 0에서 시작 ("Jan"부터 시작)
 let previousAnomaly = 0;
 
 const lastYear = 2024; // 마지막 연도 (2024)
-const lastMonth = 7; // Jul의 인덱스는 6
+const lastMonth = 8; // Jul의 인덱스는 6
+
+const weird_v = 1.5;
 
 function preload() {
   // 데이터를 로드하는 부분
@@ -144,10 +151,20 @@ function draw() {
       // anomaly 값이 숫자이고 유효한 값일 경우
       anomaly = parseFloat(anomaly); // 문자열을 숫자로 변환
       if (!isNaN(anomaly)) {
+        console.log(
+          `Anomaly is not a number for ${row.get("Year")} ${months[i]}`
+        );
+
         // anomaly 값의 범위를 -1 ~ 1로 설정하고 반경을 매핑
         let angle = map(i, 0, months.length, 0, TWO_PI) - PI / 3; // 각도 계산
-        let pr = map(previousAnomaly, -1, 0.93, minusOneRadius, oneRadius); // 이전 anomaly 값을 반경으로 변환
-        let r = map(anomaly, -1, 0.93, minusOneRadius, oneRadius); // anomaly 값을 반경으로 변환
+        let pr = map(
+          previousAnomaly,
+          -1,
+          weird_v,
+          minusOneRadius,
+          onePointFiveRadius
+        ); // 이전 anomaly 값을 반경으로 변환
+        let r = map(anomaly, -1, weird_v, minusOneRadius, onePointFiveRadius); // anomaly 값을 반경으로 변환
 
         let x1 = r * cos(angle); // anomaly에 맞는 x좌표
         let y1 = r * sin(angle); // anomaly에 맞는 y좌표
