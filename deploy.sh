@@ -26,7 +26,7 @@ cp index/index.html index/sketch.js data/glb_temp.csv $DIST_DIR/
 # 4. main 브랜치 커밋 (루트)
 echo "📦 [4/6] main 브랜치 변경사항 커밋 중..."
 git add .
-git commit -m "update and deploy on $yl" || echo "⚠️ main 브랜치에 커밋할 변경사항 없음"
+git commit -m "updated and deployed on $yl" || echo "⚠️ main 브랜치에 커밋할 변경사항 없음"
 git push origin main
 
 # 5. gh-pages 브랜치 초기화 및 커밋
@@ -36,7 +36,7 @@ git checkout -b gh-pages > /dev/null
 
 echo "🚀 [5/6] gh-pages 브랜치 커밋 준비 중..."
 git add .
-git commit -m "deploy on $yl"
+git commit -m "deployed on $yl"
 
 # 6. 원격 저장소에 강제 푸시
 REPO_URL="https://github.com/unitcristal/2024y36l_cloning_climate_spiral_visualization"

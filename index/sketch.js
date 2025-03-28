@@ -7,9 +7,6 @@ let maxRadius;
 let currentRow = 0;
 let currentMonth = 0;
 
-let prevRadius = null;
-let previousAngle = null;
-
 let lastYear;
 let lastMonth;
 
@@ -63,16 +60,14 @@ function draw() {
   const year = data.getRow(currentRow).get("Year");
   drawYearLabel(year);
 
-  drawAnomalyLines();
+  drawAnomalySpiral();
   drawReferenceCircles();
 
   currentMonth++;
-
   if (shouldStopAnimation(year)) {
     noLoop();
     return;
   }
-
   if (currentMonth === MONTHS.length) {
     currentRow++;
     currentMonth = 0;
@@ -88,9 +83,8 @@ function drawYearLabel(year) {
   text(year, 0, 0);
 }
 
-function drawAnomalyLines() {
-  prevRadius = null;
-  previousAngle = null;
+function drawAnomalySpiral() {
+  let points = [];
 
   for (let j = 0; j <= currentRow; j++) {
     const row = data.getRow(j);
@@ -110,21 +104,31 @@ function drawAnomalyLines() {
 
       const angle = getAngle(i);
       const radius = mapAnomalyToRadius(anomaly);
+      const x = radius * cos(angle);
+      const y = radius * sin(angle);
 
-      const x1 = radius * cos(angle);
-      const y1 = radius * sin(angle);
-
-      if (previousAngle !== null) {
-        const x2 = prevRadius * cos(previousAngle);
-        const y2 = prevRadius * sin(previousAngle);
-        stroke(getAnomalyColor(anomaly));
-        strokeWeight(2);
-        line(x2, y2, x1, y1);
-      }
-
-      previousAngle = angle;
-      prevRadius = radius;
+      points.push({ x, y, anomaly });
     }
+  }
+
+  if (points.length < 4) return;
+
+  strokeWeight(2);
+  noFill();
+
+  for (let i = 1; i < points.length - 2; i++) {
+    const p0 = points[i - 1];
+    const p1 = points[i];
+    const p2 = points[i + 1];
+    const p3 = points[i + 2];
+
+    stroke(getAnomalyColor(p1.anomaly));
+    beginShape();
+    curveVertex(p0.x, p0.y);
+    curveVertex(p1.x, p1.y);
+    curveVertex(p2.x, p2.y);
+    curveVertex(p3.x, p3.y);
+    endShape();
   }
 }
 
