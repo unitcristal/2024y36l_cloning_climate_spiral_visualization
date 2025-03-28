@@ -1,8 +1,8 @@
 import subprocess
 import os
 
-PYTHON_SCRIPT = "convert_csv.py"
-CSV_SOURCE = "GLB.Ts+dSST.csv"
+PYTHON_SCRIPT = "scripts/convert_csv.py"
+CSV_SOURCE = "data/GLB.Ts+dSST.csv"
 DOCKER_IMAGE = "ccsv"
 
 
@@ -23,7 +23,7 @@ def run_convert_in_ccsv():
         "python", PYTHON_SCRIPT
     ], check=True)
 
-    print("✅ 변환 완료: glb_temp.csv 생성됨")
+    print("✅ 변환 완료: data/glb_temp.csv 생성됨")
 
 
 if __name__ == "__main__":

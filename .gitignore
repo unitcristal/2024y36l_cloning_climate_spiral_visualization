@@ -1,6 +1,28 @@
+# macOS 시스템 파일
 .DS_Store
-ssl/
-.ipynb_checkpoints/
-.virtual_documents/
+
+# IDE 및 에디터 설정
 .vscode/
 .Trash-0/
+
+# Jupyter 노트북 관련
+.ipynb_checkpoints/
+.virtual_documents/
+manual_check/
+
+# Python 캐시
+__pycache__/
+*.pyc
+
+# Docker 및 빌드 관련
+ssl/
+dist/
+
+# 데이터 및 중간 산출물
+*.csv
+!data/GLB.Ts+dSST.csv
+!data/glb_temp.csv
+
+# 불필요하거나 삭제한 이전 JS 파일들
+index/sketch*.js
+!index/sketch.js
