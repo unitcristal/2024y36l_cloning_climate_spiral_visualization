@@ -43,7 +43,8 @@ function setup() {
 
   lastMonth = 11;
   for (let i = MONTHS.length - 1; i >= 0; i--) {
-    if (data.getRow(lastRowIndex).get(MONTHS[i]) !== "***") {
+    const value = data.getRow(lastRowIndex).get(MONTHS[i]);
+    if (value !== "***" && value !== "") {
       lastMonth = i;
       break;
     }
