@@ -1,3 +1,7 @@
+
+__scripts/
+__jupyter_ssl/
+
 # macOS 시스템 파일
 .DS_Store
 

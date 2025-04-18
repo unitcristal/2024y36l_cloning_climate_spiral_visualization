@@ -3,15 +3,15 @@
 set -e  # 에러 발생 시 즉시 종료
 
 # y-l 날짜 포맷 (Python 스크립트 활용)
-yl=$(python3 scripts/yl_date.py)
+yl=$(python3 __scripts/yl_date.py)
 
 # 1. 데이터 변환 (Docker에서 convert_csv.py 직접 실행)
 echo "🚀 [1/6] CSV 변환 실행 중..."
-docker run --rm -v "$PWD":/workspace ccsv python scripts/convert_csv.py
+docker run --rm -v "$PWD":/workspace climate_spiral python scripts/convert_csv.py
 
 # 2. 데이터 테스트 (Docker에서 test_convert.py 실행)
 echo "🔍 [2/6] 변환된 CSV 테스트 중..."
-docker run --rm -v "$PWD":/workspace ccsv python scripts/test_convert.py
+docker run --rm -v "$PWD":/workspace climate_spiral python scripts/test_convert.py
 
 # 3. 배포 디렉토리 구성
 DIST_DIR="dist"

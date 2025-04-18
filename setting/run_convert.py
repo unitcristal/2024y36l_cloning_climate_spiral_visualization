@@ -3,27 +3,31 @@ import os
 
 PYTHON_SCRIPT = "scripts/convert_csv.py"
 CSV_SOURCE = "data/GLB.Ts+dSST.csv"
-DOCKER_IMAGE = "ccsv"
+DOCKER_IMAGE = "climate_spiral"
 
 
 def run_convert_in_ccsv():
-    if not os.path.exists(CSV_SOURCE):
-        print(f"❌ 원본 파일이 존재하지 않습니다: {CSV_SOURCE}")
-        return
-
-    if not os.path.exists(PYTHON_SCRIPT):
-        print(f"❌ 변환 스크립트가 존재하지 않습니다: {PYTHON_SCRIPT}")
-        return
-
-    print(f"🚀 컨테이너에서 {PYTHON_SCRIPT} 실행 중...")
-    subprocess.run([
-        "docker", "run", "--rm",
-        "-v", f"{os.getcwd()}:/workspace",
+    """
+    Docker 컨테이너에서 CSV 변환 스크립트 실행
+    """
+    current_dir = os.getcwd()
+    cmd = [
+        "docker",
+        "run",
+        "--rm",
+        "-v",
+        f"{current_dir}:/workspace",
         DOCKER_IMAGE,
-        "python", PYTHON_SCRIPT
-    ], check=True)
+        "python",
+        PYTHON_SCRIPT,
+    ]
 
-    print("✅ 변환 완료: data/glb_temp.csv 생성됨")
+    try:
+        subprocess.run(cmd, check=True)
+        print("✅ CSV 변환 완료")
+    except subprocess.CalledProcessError as e:
+        print(f"❌ CSV 변환 실패: {e}")
+        raise
 
 
 if __name__ == "__main__":
